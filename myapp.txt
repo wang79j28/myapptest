@@ -1,2 +1,6 @@
-myapp master -dev brance
-master 2-222
+myapp master  cognac/master
+       fruitfly/server
+       origin/albert
+       origin/ant
+       origin/contrib
+       origin/cross-compile
