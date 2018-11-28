@@ -26,8 +26,8 @@ pipeline {
 		       echo "deploying......"
 		       sleep 1
                        echo "deploy~!!!!!!!!!!!!!!!!"
-		       updateGithubCommitStatus2(currentBuild)	   
-		       
+		       //setBuildStatus(currentBuild)	   
+		       setBuildStatus('jenkins:build', 'Your tests passed on CircleCI!','SUCCESS')
                    }
                }
             }
@@ -88,7 +88,8 @@ void setBuildStatus(String title, String message, String state) {
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: getRepoURL()],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: getCommitSha()],	  
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: title],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      //errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      errorHandlers: [[$class: 'ShallowAnyErrorHandler']],	  
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
 }
