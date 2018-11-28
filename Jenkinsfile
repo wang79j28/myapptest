@@ -70,6 +70,7 @@ def updateGithubCommitStatus2(build) {
     reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
     commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
     errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+    contextSource: [$class: "ManuallyEnteredCommitContextSource", context: 'jk:build'],	  
     statusResultSource: [
       $class: 'ConditionalStatusResultSource',
       results: [
