@@ -59,6 +59,7 @@ def updateGithubCommitStatus(String message, String state) {
   ])
 }
 
+
 def updateGithubCommitStatus2(build) {
   // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
   repoUrl = getRepoURL()
