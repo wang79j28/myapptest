@@ -29,6 +29,7 @@ pipeline {
 		       //setBuildStatus(currentBuild)	   
 		       setBuildStatus('jenkins:build', 'Your tests passed on CircleCI!','SUCCESS')
 		       setBuildStatus('jenkins:build3', 'Your 333!','SUCCESS')  
+		       setBuildStatus('jenkins:build5', 'Your 5555','SUCCESS')	   
                    }
                }
             }
