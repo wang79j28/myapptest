@@ -24,7 +24,7 @@ pipeline {
                stage('deploy ') {
                    steps {
 		       echo "deploying......"
-		       sleep 110
+		       sleep 5
                        echo "deploy~!!!!!!!!!!!!!!!!"
 		       setBuildStatus('jenkins:build', 'Your tests passed on CircleCI!','SUCCESS')	   
 		       
@@ -65,7 +65,7 @@ void setBuildStatus(String title, String message, String state) {
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: getRepoURL()],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],	  
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: title],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      //errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
 }
