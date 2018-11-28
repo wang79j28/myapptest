@@ -26,7 +26,7 @@ pipeline {
 		       echo "deploying......"
 		       sleep 1
                        echo "deploy~!!!!!!!!!!!!!!!!"
-		       setBuildStatus('jenkins:build', 'Your tests passed on CircleCI!','SUCCESS')	   
+		       updateGithubCommitStatus2(currentBuild)	   
 		       
                    }
                }
@@ -59,6 +59,28 @@ def updateGithubCommitStatus(String message, String state) {
 	statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ])
 }
+
+def updateGithubCommitStatus2(build) {
+  // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
+  repoUrl = getRepoURL()
+  commitSha = getCommitSha()
+ 
+  step([
+    $class: 'GitHubCommitStatusSetter',
+    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+    errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+    statusResultSource: [
+      $class: 'ConditionalStatusResultSource',
+      results: [
+        [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
+        [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
+        [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+      ]
+    ]
+  ])
+}
+
 void setBuildStatus(String title, String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
